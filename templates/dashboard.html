@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block contect %}
+
+<h2>Welcome, {{ user }}</h2>
+
+<div class="card">
+
+    <h3>Resume Analyser</h3>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        <textarea
+            name="resume"
+            placeholder="Paste your resume (optional)"
+            rows="10"
+            style="width: 100%;"
+        ></textarea>
+
+        <p>OR upload file:</p>
+
+        <input type="file" name="file">
+
+        <br><br>
+
+        <input
+            type="text"
+            name="role"
+            placeholder="What do you want to become? (e.g. AI Engineer)"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">Login</button>
+
+    </form>
+
+</div>
+
+
+{% if result %}
+
+<div class="card">
+
+    {% if result.error %}
+        <p style="color: red;">
+            Error: {{ result.error }}
+        </p>
+    {% endif %}
+
+
+    <h3>Skills</h3>
+
+    <ul>
+        {% for s in result.get("skills", []) %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+
+    <h3>Missing Skills</h3>
+
+    <ul>
+        {% for s in result.get("missing_skills", []) %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+
+    <h3>Roadmap</h3>
+
+    <ul>
+        {% for s in result.get("roadmap", []) %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+
+    <h3>Interview Question List</h3>
+
+    <ul>
+        {% for s in result.get("interview_questions", []) %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+    <h3>Certifications</h3>
+
+    <ul>
+        {% for s in result.get("certifications", []) %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Platforms to Apply</h3>
+
+    <ul>
+        {% for s in result.get("platforms_to_apply", []) %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+
+    <h3>Projects to Add</h3>
+
+    <ul>
+        {% for s in result.get("projects_to_add", []) %}
+            <li>{{ s }}</li>
+        {% endfor %}
+    </ul>
+        <form method="POST" action="/save">
+        <button type="submit">Save Report</button>
+    </form>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
+        
